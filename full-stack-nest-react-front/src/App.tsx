@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react"
-
+import { useEffect, useState } from "react";
 
 function App() {
-const [message,setMessage] = useState('my message')
-useEffect(()=>{
-  fetch('http://localhost:3000/courses')
-  .then(res=>res.json())
-  .then(obj=>{
-    setMessage(obj.message)
-    
-  })
-},[])
+  const [courses, setCourses] = useState<any[]>([])
+  useEffect(() => {
+    fetch('http://localhost:3000/courses')
+      .then(res => res.json())
+      .then(courses => {
+        setCourses(courses)
+
+      })
+  }, [])
+
   return (
     <main>
-      <h1 className="text-red-900">{message}</h1>
+      {courses.map((item, index) => {
+        return <h1 key={index}>{item.number}-{item.title}</h1>
+      })}
     </main>
   )
 }
