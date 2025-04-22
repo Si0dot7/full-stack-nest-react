@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Courses } from "./interfaces";
+import CoursesItem from "./CoursesItem";
 
 function App() {
-  const [courses, setCourses] = useState<any[]>([])
+  const [courses, setCourses] = useState<Courses[]>([])
   useEffect(() => {
     fetch('http://localhost:3000/courses')
       .then(res => res.json())
@@ -14,7 +16,7 @@ function App() {
   return (
     <main>
       {courses.map((item, index) => {
-        return <h1 key={index}>{item.number}-{item.title}</h1>
+        return <CoursesItem key={index} courses={item}/>
       })}
     </main>
   )
