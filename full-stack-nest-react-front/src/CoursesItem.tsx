@@ -8,7 +8,7 @@ const CoursesItem = (props:CoursesItemProps) => {
     const courses = props.courses
 
   return (
-    <div className="text-red-700">{courses.title}</div>
+    <div className="text-red-700">{courses.id},{courses.number},{courses.title}</div>
   )
 }
 

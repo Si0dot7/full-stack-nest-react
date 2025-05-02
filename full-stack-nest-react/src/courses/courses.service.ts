@@ -1,4 +1,4 @@
-import { Courses } from "./entities/courses.entity";
+import { Courses } from "./courses.entity";
 import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";

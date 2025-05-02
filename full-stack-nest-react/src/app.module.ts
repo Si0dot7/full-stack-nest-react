@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CoursesController } from './courses.controller';
-import { CoursesService } from './courses.service';
-
 import { TypeOrmModule } from '@nestjs/typeorm';
-import Courses from './entities/courses.entity';
+import Courses from './courses/courses.entity';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
   imports: [
@@ -17,9 +15,9 @@ import Courses from './entities/courses.entity';
       entities: [Courses],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Courses])
+    CoursesModule,
   ],
-  controllers: [AppController,CoursesController],
-  providers: [AppService, CoursesService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
