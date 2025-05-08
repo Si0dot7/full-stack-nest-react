@@ -1,4 +1,4 @@
-import { Courses } from "./interfaces"
+import { Courses } from "../interfaces"
 
 type CoursesItemProps = {
     courses: Courses;
