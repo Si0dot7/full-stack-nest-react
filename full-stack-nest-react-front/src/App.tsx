@@ -6,13 +6,19 @@ import NewCourseForm from "./components/newCourseForm";
 function App() {
   const [courses, setCourses] = useState<Courses[]>([])
 
-  useEffect(() => {
+  const fetchCourses = () => {
     fetch('http://localhost:3000/courses')
       .then(res => res.json())
       .then(courses => {
         setCourses(courses)
-
       })
+  }
+  const handleNewCourseCreated = (course: Courses) => {
+    fetchCourses();
+  }
+
+  useEffect(() => {
+    fetchCourses();
   }, [])
 
   return (
@@ -22,7 +28,7 @@ function App() {
           return <CoursesItem key={index} courses={item} />
         })}
       </div>
-      <NewCourseForm />
+      <NewCourseForm onNewCourseCreated={handleNewCourseCreated}/>
     </main>
   )
 }
