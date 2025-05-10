@@ -1,34 +1,30 @@
 import { useState } from "react";
 import { Courses } from "../interfaces";
+import CoursesService from "../services/CoursesService";
 
 type NewCourseFormProps = {
-    onNewCourseCreated? : (newCourse: Courses)=> void,
+    onNewCourseCreated?: (newCourse: Courses) => void,
 };
 
 const NewCourseForm = (props: NewCourseFormProps) => {
     const [newCourseNumber, setNewCourseNumber] = useState<string>('')
     const [newCourseTitle, setNewCourseTitle] = useState<string>('')
 
-    const handleSave=()=>{
+    const handleSave = () => {
         const newCourse = {
             number: newCourseNumber,
             title: newCourseTitle,
         }
-
-        fetch("http://localhost:3000/courses",{
-            method: 'POST',
-            headers: {'Content-Type': 'Application/json'},
-            body: JSON.stringify(newCourse)
-        })
-        .then(res=>res.json())
-        .then(saveNewCourse=>{
-            if(saveNewCourse.id !== undefined){
-                if(props.onNewCourseCreated !== undefined){
-                    props.onNewCourseCreated(saveNewCourse)
+        CoursesService.createCourses(newCourse)
+            .then(saveNewCourse => {
+                if (saveNewCourse !== null) {
+                    if (props.onNewCourseCreated !== undefined) {
+                        props.onNewCourseCreated(saveNewCourse)
+                    }
+                } else {
+                    alert('save error')
                 }
-            }
-        })
-        
+            })
     }
 
     return (

@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import { Courses } from "./interfaces";
 import CoursesItem from "./components/CoursesItem";
-import NewCourseForm from "./components/newCourseForm";
+import NewCourseForm from "./components/NewCourseForm";
+import CoursesService from "./services/CoursesService";
 
 function App() {
   const [courses, setCourses] = useState<Courses[]>([])
 
   const fetchCourses = () => {
-    fetch('http://localhost:3000/courses')
-      .then(res => res.json())
-      .then(courses => {
-        setCourses(courses)
-      })
+    CoursesService.fetchCourses()
+    .then(courses=>{
+      setCourses(courses)
+    })
   }
-  const handleNewCourseCreated = (course: Courses) => {
+  const handleNewCourseCreated = (_course: Courses) => {
     fetchCourses();
   }
 
   useEffect(() => {
-    fetchCourses();
+    fetchCourses(); 
+       
   }, [])
 
   return (
