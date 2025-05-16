@@ -1,4 +1,4 @@
-import { Courses } from "../interfaces";
+import { Courses, Review } from "../interfaces";
 
 async function fetchCourses(): Promise<Courses[]> {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/courses`);
@@ -21,8 +21,15 @@ async function createCourses(newCourse: Courses): Promise<Courses | null> {
 
 }
 
+async function fetchReview(courseId: string): Promise<Review[]>{
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/courses/${courseId}/reviews`)
+    const review = await res.json()
+    return review
+}
+
 
 export default {
     fetchCourses,
     createCourses,
+    fetchReview,
 }

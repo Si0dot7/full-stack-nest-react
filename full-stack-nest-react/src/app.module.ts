@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Courses from './courses/courses.entity';
 import { CoursesModule } from './courses/courses.module';
+import Review from './courses/review.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { CoursesModule } from './courses/courses.module';
       host: '127.0.0.1',
       port: 27017,
       database: 'nest-test',
-      entities: [Courses],
+      entities: [Courses,Review],
       synchronize: true,
     }),
     CoursesModule,
