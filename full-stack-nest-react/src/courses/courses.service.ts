@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CreateCoursesDto } from "./dto/create-courses-dto";
 import Review from "./review.entity";
 import { ObjectId } from "mongodb";
+import { CreateReviewDto } from "./dto/create-review-dto";
 
 
 @Injectable()
@@ -24,7 +25,15 @@ export class CoursesService {
         return this.coursesRepository.save(createCoursesDto)
     }
 
-    async findAllReview(courseId: ObjectId): Promise<Review[]> {
-        return this.reviewRepository.find({where:{courseId:courseId}});
+    async findReview(courseId: string): Promise<Review[]> {
+        return this.reviewRepository.find({where:{courseId:new ObjectId(courseId)}});
+    }
+
+    async findAllReview(): Promise<Review[]> {
+        return this.reviewRepository.find();
+    }
+
+    async createReview(createReviewDto: CreateReviewDto){
+        return this.reviewRepository.save(createReviewDto)
     }
 }

@@ -27,8 +27,8 @@ async function fetchReview(courseId: string): Promise<Review[]>{
     return review
 }
 
-async function saveReview(newReview: Review , courseId: string): Promise<Review | null>{
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/courses/${courseId}/review`, {
+async function createReview(newReview: Review , courseId: string): Promise<Review | null>{
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/courses/${courseId}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'Application/json' },
         body: JSON.stringify(newReview)
@@ -45,5 +45,5 @@ export default {
     fetchCourses,
     createCourses,
     fetchReview,
-    saveReview
+    createReview,
 }

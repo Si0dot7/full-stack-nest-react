@@ -46,7 +46,7 @@ const CoursesItem = (props: CoursesItemProps) => {
       score: newReviewScore,
     }
     if (courses.id) {
-      CoursesService.saveReview(newReview, courses.id)
+      CoursesService.createReview(newReview, courses.id)
         .then(saveNewReview => {
           if (saveNewReview) {
             fetchUpdate();

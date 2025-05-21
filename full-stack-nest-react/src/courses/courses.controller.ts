@@ -4,6 +4,7 @@ import { CoursesService } from "./courses.service";
 import { CreateCoursesDto } from "./dto/create-courses-dto";
 import Review from "./review.entity";
 import { ObjectId } from "mongodb";
+import { CreateReviewDto } from "./dto/create-review-dto";
 
 @Controller('courses')
 export class CoursesController {
@@ -27,10 +28,28 @@ export class CoursesController {
     }
 
     @Get(':courseId/reviews')
-    async findAllReview(@Param('courseId') courseId: ObjectId): Promise<Review[]> {
-        const review = await this.coursesService.findAllReview(courseId)
-        return review 
+    async findReview(@Param('courseId') courseId: string): Promise<Review[]> {
+        const review = await this.coursesService.findReview(courseId)
+        console.log(review);
         
-        
+        return review
+
+
+    }
+
+    @Get('/reviews')
+    async findAllReview(): Promise<Review[]> {
+        return this.coursesService.findAllReview();
+    }
+
+    @Post(':courseId/reviews')
+    async createReview(@Param('courseId') courseId: string, @Body() createReviewDto: CreateReviewDto) {
+        if ((createReviewDto.comment !== undefined) && (createReviewDto.score !== undefined)) {
+            createReviewDto.courseId = new ObjectId(courseId)
+            const newReview = this.coursesService.createReview(createReviewDto)
+            return newReview
+        } else {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
+        }
     }
 }
