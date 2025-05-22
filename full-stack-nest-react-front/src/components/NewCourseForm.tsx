@@ -10,6 +10,11 @@ const NewCourseForm = (props: NewCourseFormProps) => {
     const [newCourseNumber, setNewCourseNumber] = useState<string>('')
     const [newCourseTitle, setNewCourseTitle] = useState<string>('')
 
+    const clearForm=()=>{
+        setNewCourseNumber('')
+        setNewCourseTitle('')
+    }
+
     const handleSave = () => {
         const newCourse = {
             number: newCourseNumber,
@@ -20,6 +25,7 @@ const NewCourseForm = (props: NewCourseFormProps) => {
                 if (saveNewCourse !== null) {
                     if (props.onNewCourseCreated !== undefined) {
                         props.onNewCourseCreated(saveNewCourse)
+                        clearForm();
                     }
                 } else {
                     alert('save error')
@@ -28,18 +34,20 @@ const NewCourseForm = (props: NewCourseFormProps) => {
     }
 
     return (
-        <div>
-            <section>
-                <h1>Number: </h1>
-                <input className="border" value={newCourseNumber} onChange={(e) => setNewCourseNumber(e.target.value)} />
-            </section>
-            <section>
-                <h1>Title: </h1>
-                <input className="border" value={newCourseTitle} onChange={(e) => setNewCourseTitle(e.target.value)} />
-            </section>
-            <section>
-                <button className="border bg-green-400" onClick={handleSave}>Save</button>
-            </section>
+        <div className="flex justify-center">
+            <div>
+                <section>
+                    <h1>Number: </h1>
+                    <input className="border" value={newCourseNumber} onChange={(e) => setNewCourseNumber(e.target.value)} />
+                </section>
+                <section>
+                    <h1>Title: </h1>
+                    <input className="border" value={newCourseTitle} onChange={(e) => setNewCourseTitle(e.target.value)} />
+                </section>
+                <section>
+                    <button className="border bg-green-400" onClick={handleSave}>Save</button>
+                </section>
+            </div>
         </div>
     );
 }

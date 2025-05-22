@@ -5,6 +5,7 @@ import { CreateCoursesDto } from "./dto/create-courses-dto";
 import Review from "./review.entity";
 import { ObjectId } from "mongodb";
 import { CreateReviewDto } from "./dto/create-review-dto";
+import { ParseObjectIdPipe } from "src/common/pipes";
 
 @Controller('courses')
 export class CoursesController {
@@ -18,23 +19,12 @@ export class CoursesController {
 
     @Post()
     async create(@Body() createCoursesDto: CreateCoursesDto) {
-        if ((createCoursesDto.number != undefined) && (createCoursesDto.title != undefined)) {
-            const newCourses = this.coursesService.create(createCoursesDto)
-            return newCourses
-        } else {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-        }
-
+        return this.coursesService.create(createCoursesDto)
     }
 
     @Get(':courseId/reviews')
-    async findReview(@Param('courseId') courseId: string): Promise<Review[]> {
-        const review = await this.coursesService.findReview(courseId)
-        console.log(review);
-        
-        return review
-
-
+    async findReview(@Param('courseId', ParseObjectIdPipe) courseId: ObjectId): Promise<Review[]> {
+        return await this.coursesService.findReview(courseId)
     }
 
     @Get('/reviews')
@@ -43,13 +33,8 @@ export class CoursesController {
     }
 
     @Post(':courseId/reviews')
-    async createReview(@Param('courseId') courseId: string, @Body() createReviewDto: CreateReviewDto) {
-        if ((createReviewDto.comment !== undefined) && (createReviewDto.score !== undefined)) {
-            createReviewDto.courseId = new ObjectId(courseId)
-            const newReview = this.coursesService.createReview(createReviewDto)
-            return newReview
-        } else {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
-        }
+    async createReview(@Param('courseId', ParseObjectIdPipe) courseId: ObjectId, @Body() createReviewDto: CreateReviewDto) {
+        createReviewDto.courseId = courseId
+        return this.coursesService.createReview(createReviewDto)
     }
 }
